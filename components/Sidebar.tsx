@@ -6,8 +6,6 @@ import { useOnClickOutside } from "usehooks-ts";
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/UserAvatar";
 
-import Avatar from "@/public/bg.jpg";
-
 type Props = {
   open: boolean;
   navItems?: NavItem[];
@@ -29,9 +27,10 @@ const Sidebar = ({ open, navItems = items, setOpen }: Props) => {
   return (
     <div
       className={classNames({
-        "flex flex-col justify-between": true, // layout
-        "bg-white text-zinc-50 shadow-inner dark:bg-popover": true, // colors
-        "md:w-full md:sticky md:top-16 md:z-0 top-0 z-20 fixed": true, // positioning
+        "fixed flex flex-col justify-between overflow-y-hidden": true, // layout
+        "bg-white rounded-lg text-zinc-50 shadow-inner dark:bg-zinc-950 dark:text-white":
+          true, // colors
+        "md:w-full md:sticky md:top-8 md:z-0 top-0 z-20 fixed": true, // positioning
         "md:h-[calc(100vh_-_64px)] h-full w-[300px]": true, // for height and width
         "transition-transform .3s ease-in-out md:-translate-x-0": true, //animations
         "-translate-x-full ": !open, //hide sidebar to the left when closed
@@ -45,7 +44,7 @@ const Sidebar = ({ open, navItems = items, setOpen }: Props) => {
             key={item.href}
             variant={"ghost"}
             disabled={item.disabled}
-            className="w-full justify-start text-black dark:text-white"
+            className="w-full justify-start text-black dark:text-white h-full"
           >
             <Link
               href={item.href}

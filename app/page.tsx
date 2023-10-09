@@ -20,14 +20,14 @@ export default function Home() {
   // });
 
   return (
-    <div className="flex h-screen overflow-clip dark:bg-slate-950">
-      <div className="invisible lg:visible lg:w-1/2 bg-cover">
-        <Image src={Bg} alt={"Background"} />
+    <div className="flex h-screen overflow-clip dark:bg-zinc-950 max-md:flex-col">
+      <div className="w-1/2 bg-cover max-md:hidden">
+        <Image src={Bg} className="h-full" alt={"Background"} />
       </div>
       <div className="flex-grow-0 flex-row p-2">
         <ModeToggle></ModeToggle>
       </div>
-      <div className="lg:w-1/2 flex items-center justify-center p-2">
+      <div className="lg:w-1/2 flex items-center justify-center p-2 max-md:h-full max-md:">
         <form>
           <Image
             src={Logo}
@@ -62,7 +62,7 @@ export default function Home() {
           </div>
           <div className="flex items-center justify-between">
             <Button asChild>
-              <Link href="/dashboard">Login</Link>
+              <Link href="/app">Login</Link>
             </Button>
             <Button variant={"outline"}>Reset</Button>
           </div>

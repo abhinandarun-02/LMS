@@ -73,5 +73,6 @@
   body {
     @apply bg-background text-foreground;
     max-height: 100vh;
+    /* overflow: clip; */
   }
 }

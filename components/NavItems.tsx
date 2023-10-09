@@ -1,29 +1,29 @@
-import { IndianRupee, LayoutDashboard, User, Users } from "lucide-react";
+import { IndianRupee, LayoutDashboard, Library, Users } from "lucide-react";
 import { NavItem } from "./Sidebar";
 
 export const items: NavItem[] = [
   {
     label: "Dashboard",
-    href: "/dashboard",
+    href: "/app",
     icon: LayoutDashboard,
     disabled: false,
   },
   {
-    label: "Users",
-    href: "/users",
-    icon: Users,
-    disabled: false,
-  },
-  {
     label: "Overdue",
-    href: "/overdue",
+    href: "/app/overdue",
     icon: IndianRupee,
     disabled: false,
   },
   {
-    label: "Admin",
-    href: "/admin",
-    icon: User,
+    label: "Books",
+    href: "/app/books",
+    icon: Library,
+    disabled: false,
+  },
+  {
+    label: "Users",
+    href: "/app/users",
+    icon: Users,
     disabled: false,
   },
 ];
