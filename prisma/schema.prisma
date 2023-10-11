@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  rollNumber String    @id
+  name       String
+  email      String
+  phone      String
+  role       UserRoles
+}
+
+enum UserRoles {
+  teacher
+  student
+}
+
+model Books {
+  id        String  @id @default(uuid()) // You can add a default value for the "id" field
+  title     String
+  edition   String
+  author    String
+  publisher String
+  available Boolean
+}
