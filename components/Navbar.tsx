@@ -19,14 +19,14 @@ export default function Navbar(props: Props) {
     <nav
       className={classNames({
         "bg-white dark:bg-zinc-950": true, // colors
-        "flex items-center": true, // layout
-        "w-full fixed px-4 shadow-inner h-16 gap-2": true, //positioning & styling
+        "fixed flex items-center justify-start": true, // layout
+        "w-full fixed px-4 shadow-inner h-16 z-10 gap-2": true, //positioning & styling
       })}
     >
       <Image
         src={Logo}
         fill={true}
-        className="invert dark:grayscale md:items-left"
+        className="invert dark:grayscale"
         alt="NavbarLogo"
       />
       <div className="flex-grow"></div>

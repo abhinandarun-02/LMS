@@ -23,10 +23,12 @@ export const UserAvatar = ({
         alt={name}
       />
       <AvatarFallback
-        className="text-violet11 leading-1 flex h-full w-full items-center justify-center bg-white text-[15px] font-medium"
+        className="text-violet11 leading-1 flex h-full w-full items-center justify-center bg-white dark:bg-popover text-[15px] font-medium border border-solid border-gray-400 dark:text-white"
         delayMs={600}
       >
-        PK
+        {name
+          .split(/\s/)
+          .reduce((response, word) => (response += word.slice(0, 1)), "")}
       </AvatarFallback>
     </Avatar>
   );

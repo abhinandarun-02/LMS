@@ -14,14 +14,14 @@ export default function Layout(props: PropsWithChildren) {
         <Navbar onMenuButtonClick={() => setSidebarOpen((prev) => !prev)} />
       </div>
 
-      <div className="grid py-2.5 md:grid-cols-sidebar overflow-clip">
+      <div className="grid lg:py-2.5 md:grid-cols-sidebar">
         <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
         <div
           className={classNames({
-            "p-4": true, // layout
+            "lg:p-4": true, // layout
             "bg-white rounded-lg shadow-inner dark:bg-black dark:text-white":
               true, // colors
-            "mx-2.5 overflow-y-auto": true, // positioning
+            "lg:mx-2.5 md:mx-0": true, // positioning
           })}
         >
           {props.children}

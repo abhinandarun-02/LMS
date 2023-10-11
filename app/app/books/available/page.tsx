@@ -32,8 +32,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Books } from "./data";
-import { data } from "./data";
+import { Books } from "../data";
+import { data } from "../data";
 import {
   Select,
   SelectTrigger,
@@ -99,15 +99,6 @@ export const columns: ColumnDef<Books>[] = [
     header: "Publisher",
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("publisher")}</div>
-    ),
-  },
-  {
-    accessorKey: "available",
-    header: "Available",
-    cell: ({ row }) => (
-      <div className="capitalize">
-        {row.getValue("available") == true ? "Yes" : "No"}
-      </div>
     ),
   },
 ];
@@ -230,8 +221,10 @@ export default function BookTable() {
               ))}
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
+              {table
+                .getRowModel()
+                .rows.filter((row) => row.original.available === true)
+                .map((row) => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
@@ -245,26 +238,12 @@ export default function BookTable() {
                       </TableCell>
                     ))}
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
+                ))}
             </TableBody>
           </ScrollArea>
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"

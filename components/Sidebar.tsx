@@ -27,7 +27,7 @@ const Sidebar = ({ open, navItems = items, setOpen }: Props) => {
   return (
     <div
       className={classNames({
-        "fixed flex flex-col justify-between overflow-y-hidden": true, // layout
+        "fixed flex flex-col justify-between overflow-clip": true, // layout
         "bg-white rounded-lg text-zinc-50 shadow-inner dark:bg-zinc-950 dark:text-white":
           true, // colors
         "md:w-full md:sticky md:top-8 md:z-0 top-0 z-20 fixed": true, // positioning

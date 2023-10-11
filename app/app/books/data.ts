@@ -4,6 +4,7 @@ export type Books = {
   edition: string;
   author: string;
   publisher: string;
+  available: boolean;
 };
 
 export const data: Books[] = [
@@ -13,6 +14,7 @@ export const data: Books[] = [
     edition: "Reprint Edition",
     author: "Frances Hodgson Burnett",
     publisher: "Penguin Books",
+    available: true,
   },
   {
     id: "e5f6g7h8",
@@ -20,6 +22,7 @@ export const data: Books[] = [
     edition: "50th Anniversary Edition",
     author: "Harper Lee",
     publisher: "HarperCollins",
+    available: true,
   },
   {
     id: "i9j1k2l3",
@@ -27,6 +30,7 @@ export const data: Books[] = [
     edition: "First Edition",
     author: "George Orwell",
     publisher: "Signet Classic",
+    available: true,
   },
   {
     id: "m4n5o6p7",
@@ -34,6 +38,7 @@ export const data: Books[] = [
     edition: "Critical Edition",
     author: "F. Scott Fitzgerald",
     publisher: "Scribner",
+    available: false,
   },
   {
     id: "q8r9s0t1",
@@ -41,6 +46,7 @@ export const data: Books[] = [
     edition: "Collector's Edition",
     author: "Jane Austen",
     publisher: "Wordsworth Editions",
+    available: true,
   },
   {
     id: "a2b3c4d5",
@@ -48,6 +54,7 @@ export const data: Books[] = [
     edition: "Special Edition",
     author: "Harper Lee",
     publisher: "HarperCollins Publishers",
+    available: false,
   },
   {
     id: "e6f7g8h9",
@@ -55,6 +62,7 @@ export const data: Books[] = [
     edition: "Centennial Edition",
     author: "George Orwell",
     publisher: "Penguin Books",
+    available: false,
   },
   {
     id: "i1j2k3l4",
@@ -62,6 +70,7 @@ export const data: Books[] = [
     edition: "Deluxe Edition",
     author: "F. Scott Fitzgerald",
     publisher: "Scribner",
+    available: true,
   },
   {
     id: "m5n6o7p8",
@@ -69,6 +78,7 @@ export const data: Books[] = [
     edition: "Anniversary Edition",
     author: "Herman Melville",
     publisher: "Vintage Books",
+    available: true,
   },
   {
     id: "q9r0s1t2",
@@ -76,6 +86,7 @@ export const data: Books[] = [
     edition: "Illustrated Edition",
     author: "Charlotte Bronte",
     publisher: "Barnes & Noble Classics",
+    available: false,
   },
   {
     id: "s3u4v5w6",
@@ -83,6 +94,7 @@ export const data: Books[] = [
     edition: "Special Deluxe Edition",
     author: "J.D. Salinger",
     publisher: "Little, Brown and Company",
+    available: true,
   },
   {
     id: "x7y8z9a0",
@@ -90,6 +102,7 @@ export const data: Books[] = [
     edition: "Modern Classics Edition",
     author: "Virginia Woolf",
     publisher: "Harvest Books",
+    available: true,
   },
   {
     id: "b1c2d3e4",
@@ -97,6 +110,7 @@ export const data: Books[] = [
     edition: "Centenary Edition",
     author: "Aldous Huxley",
     publisher: "Harper Perennial Modern Classics",
+    available: true,
   },
   {
     id: "f5g6h7i8",
@@ -104,6 +118,7 @@ export const data: Books[] = [
     edition: "75th Anniversary Edition",
     author: "J.R.R. Tolkien",
     publisher: "Houghton Mifflin Harcourt",
+    available: true,
   },
   {
     id: "j9k0l1m2",
@@ -111,5 +126,6 @@ export const data: Books[] = [
     edition: "Gabriel Garcia Marquez",
     author: "Harper Perennial Modern Classics",
     publisher: "Harper Perennial Modern Classics",
+    available: true,
   },
 ];
