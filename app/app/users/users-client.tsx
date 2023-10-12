@@ -14,7 +14,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, Plus } from "lucide-react";
-``;
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -33,10 +32,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Books } from "./data";
+import { User } from "./data";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-export const columns: ColumnDef<Books>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -57,57 +56,47 @@ export const columns: ColumnDef<Books>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "title",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Title
+          Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("title")}</div>,
+    cell: ({ row }) => <div>{row.getValue("name")}</div>,
   },
   {
-    accessorKey: "edition",
-    header: "Edition",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("edition")}</div>
-    ),
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
-    accessorKey: "author",
-    header: "Author",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("author")}</div>
-    ),
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => <div>{row.getValue("phone")}</div>,
   },
   {
-    accessorKey: "publisher",
-    header: "Publisher",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("publisher")}</div>
-    ),
+    accessorKey: "rollNumber",
+    header: "Roll Number",
+    cell: ({ row }) => <div>{row.getValue("rollNumber")}</div>,
   },
   {
-    accessorKey: "available",
-    header: "Available",
-    cell: ({ row }) => (
-      <div className="capitalize">
-        {row.getValue("available") == true ? "Yes" : "No"}
-      </div>
-    ),
+    accessorKey: "role",
+    header: "Role",
+    cell: ({ row }) => <div className="capitalize">{row.getValue("role")}</div>,
   },
 ];
 
-interface BooksClientProps {
-  data: Books[];
+interface UsersClientProps {
+  data: User[];
 }
 
-export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
+export const UsersClient: React.FC<UsersClientProps> = ({ data }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -119,6 +108,7 @@ export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
   const table = useReactTable({
     data,
     columns,
+    pageCount: 5,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -145,30 +135,17 @@ export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
 
   return (
     <div className="w-full">
-      <h1>Books</h1>
+      <h1>Users</h1>
       <div className="flex py-4">
         <Input
-          placeholder="Filter titles..."
+          placeholder="Filter users..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <div className="ml-auto pl-2 space-x-2">
-          <select
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[5, 10, 15, 20, 25].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
-
+        <div className="ml-auto pl-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
@@ -197,15 +174,15 @@ export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
           </DropdownMenu>
         </div>
         <Button asChild className="ml-2 space-x-2">
-          <Link href="/app/books/add">
+          <Link href="/app/users/add">
             <Plus></Plus>
-            <span className="hidden md:inline whitespace-nowrap">Add Book</span>
+            <span className="hidden md:inline whitespace-nowrap">Add User</span>
           </Link>
         </Button>
       </div>
       <div className="rounded-md border">
         <Table>
-          <ScrollArea className="h-[60vh] ">
+          <ScrollArea className="h-[60vh]">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>

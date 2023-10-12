@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import axios from 'axios'
+import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { use, useState } from "react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Loader } from "lucide-react";
 
@@ -33,14 +33,13 @@ const formSchema = z.object({
   publisher: z.string().min(2, {
     message: "Publisher must be at least 2 characters.",
   }),
-  available: z.boolean().refine(value => value === true || value === false, {
+  available: z.boolean().refine((value) => value === true || value === false, {
     message: "Available must be either true or false.",
   }),
 });
 
 function AddBook() {
-
-  const router = useRouter()
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,18 +54,18 @@ function AddBook() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    console.log(values);
     try {
-      setLoading(true)
-     
-      await axios.post(`/api/book/add`, values)
-      
-      router.refresh()
-      toast.success('Product Created')
+      setLoading(true);
+
+      await axios.post(`/api/book/add`, values);
+
+      router.refresh();
+      toast.success("Book Added to Library");
     } catch (error: any) {
-      toast.error('Something went wrong.')
+      toast.error("Something went wrong.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -129,7 +128,8 @@ function AddBook() {
           />
           <div className="flex items-center justify-between">
             <Button type="submit">
-              {loading && <Loader className="h-4 w-4 animate-spin"/>}Submit</Button>
+              {loading && <Loader className="h-4 w-4 animate-spin" />}Submit
+            </Button>
             <Button variant={"outline"}>Reset</Button>
           </div>
         </form>
