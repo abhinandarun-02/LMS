@@ -53,6 +53,11 @@ function AddBook() {
     },
   });
 
+  const {
+    reset,
+    formState: { errors },
+  } = useForm<typeof formSchema>();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     try {
@@ -130,7 +135,9 @@ function AddBook() {
             <Button type="submit">
               {loading && <Loader className="h-4 w-4 animate-spin" />}Submit
             </Button>
-            <Button variant={"outline"}>Reset</Button>
+            <Button variant={"outline"} onClick={() => reset()}>
+              Reset
+            </Button>
           </div>
         </form>
       </Form>

@@ -28,12 +28,6 @@ export async function POST(req: Request) {
       return new NextResponse("Role is required", { status: 400 });
     }
 
-    // if (role != "teacher" || role != "student") {
-    //   return new NextResponse("Role must be student or teacher", {
-    //     status: 400,
-    //   });
-    // }
-
     const user = await prismadb.user.create({
       data: {
         rollNumber,
@@ -47,7 +41,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(user);
   } catch (error) {
-    console.log("[BOOKS_POST]", error);
+    console.log("[USER_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

@@ -1,5 +1,6 @@
 import { AddBook } from "@/components/AddBook";
 import { AddUser } from "@/components/AddUser";
+import { AddIssue } from "@/components/AddIssue";
 import { ShowAvailable } from "@/components/ShowAvailable";
 import { RecentSales } from "@/components/recent-sales";
 import {
@@ -27,6 +28,7 @@ function Dashboard() {
               <div className="flex flex-col space-y-4 items-center">
                 <AddBook variant="secondary"></AddBook>
                 <AddUser variant="default"></AddUser>
+                <AddIssue variant="ghost"></AddIssue>
                 <ShowAvailable variant="outline"></ShowAvailable>
               </div>
             </CardContent>

@@ -34,19 +34,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { AddBook } from "@/components/AddBook";
-import { ShowAvailable } from "@/components/ShowAvailable";
 
-type Books = {
+type Issues = {
   id: string;
-  title: string;
-  edition: string;
-  author: string;
-  publisher: string;
-  available: boolean;
+  book_id: string;
+  book_title: string;
+  user_id: string;
+  user_name: string;
+  overdue: false;
 };
 
-export const columns: ColumnDef<Books>[] = [
+export const columns: ColumnDef<Issues>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -67,57 +65,57 @@ export const columns: ColumnDef<Books>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "title",
+    accessorKey: "user_id",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Title
+          Roll Number
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("title")}</div>,
+    cell: ({ row }) => <div>{row.getValue("user_id")}</div>,
   },
   {
-    accessorKey: "edition",
-    header: "Edition",
+    accessorKey: "user_name",
+    header: "Name",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("edition")}</div>
+      <div className="capitalize">{row.getValue("user_name")}</div>
     ),
   },
   {
-    accessorKey: "author",
-    header: "Author",
+    accessorKey: "book_id",
+    header: "Book ID",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("author")}</div>
+      <div className="capitalize">{row.getValue("book_id")}</div>
     ),
   },
   {
-    accessorKey: "publisher",
-    header: "Publisher",
+    accessorKey: "book_title",
+    header: "Book Title",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("publisher")}</div>
+      <div className="capitalize">{row.getValue("book_title")}</div>
     ),
   },
   {
-    accessorKey: "available",
-    header: "Available",
+    accessorKey: "overdue",
+    header: "Overdue",
     cell: ({ row }) => (
       <div className="capitalize">
-        {row.getValue("available") == true ? "Yes" : "No"}
+        {row.getValue("overdue") == true ? "Yes" : "No"}
       </div>
     ),
   },
 ];
 
-interface BooksClientProps {
-  data: Books[];
+interface IssuesClientProps {
+  data: Issues[];
 }
 
-export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
+export const IssuesClient: React.FC<IssuesClientProps> = ({ data }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -155,13 +153,13 @@ export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
 
   return (
     <div className="w-full">
-      <h1>Books</h1>
+      <h1>Issues</h1>
       <div className="flex py-4">
         <Input
-          placeholder="Filter titles..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter users..."
+          value={(table.getColumn("user_id")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn("user_id")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -206,8 +204,14 @@ export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <AddBook variant="default"></AddBook>
-        <ShowAvailable variant="outline"></ShowAvailable>
+        <Button asChild className="ml-2 space-x-2">
+          <Link href="/app/issues/add">
+            <Plus></Plus>
+            <span className="hidden md:inline whitespace-nowrap">
+              Add Issue
+            </span>
+          </Link>
+        </Button>
       </div>
       <div className="rounded-md border">
         <Table>

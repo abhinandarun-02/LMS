@@ -11,16 +11,11 @@ datasource db {
 }
 
 model User {
-  rollNumber String    @id
+  rollNumber String @id
   name       String
   email      String
   phone      String
-  role       UserRoles
-}
-
-enum UserRoles {
-  teacher
-  student
+  role       String
 }
 
 model Books {
@@ -30,4 +25,14 @@ model Books {
   author    String
   publisher String
   available Boolean
+}
+
+model Issue {
+  id         String  @id @default(uuid())
+  created_at String
+  overdue    Boolean
+  book_id    String
+  book_title String
+  user_id    String
+  user_name  String
 }

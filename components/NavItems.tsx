@@ -1,4 +1,10 @@
-import { IndianRupee, LayoutDashboard, Library, Users } from "lucide-react";
+import {
+  BookLock,
+  IndianRupee,
+  LayoutDashboard,
+  Library,
+  Users,
+} from "lucide-react";
 import { NavItem } from "./Sidebar";
 
 export const items: NavItem[] = [
@@ -12,6 +18,12 @@ export const items: NavItem[] = [
     label: "Overdue",
     href: "/app/overdue",
     icon: IndianRupee,
+    disabled: false,
+  },
+  {
+    label: "Issues",
+    href: "/app/issues",
+    icon: BookLock,
     disabled: false,
   },
   {

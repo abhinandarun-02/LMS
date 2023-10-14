@@ -14,7 +14,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, Plus } from "lucide-react";
-``;
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -34,19 +33,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { AddBook } from "@/components/AddBook";
-import { ShowAvailable } from "@/components/ShowAvailable";
 
-type Books = {
+type AvailableBooks = {
   id: string;
   title: string;
   edition: string;
   author: string;
   publisher: string;
-  available: boolean;
 };
 
-export const columns: ColumnDef<Books>[] = [
+export const columns: ColumnDef<AvailableBooks>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -102,22 +98,15 @@ export const columns: ColumnDef<Books>[] = [
       <div className="capitalize">{row.getValue("publisher")}</div>
     ),
   },
-  {
-    accessorKey: "available",
-    header: "Available",
-    cell: ({ row }) => (
-      <div className="capitalize">
-        {row.getValue("available") == true ? "Yes" : "No"}
-      </div>
-    ),
-  },
 ];
 
-interface BooksClientProps {
-  data: Books[];
+interface AvailableBooksClientProps {
+  data: AvailableBooks[];
 }
 
-export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
+export const AvailableBooksClient: React.FC<AvailableBooksClientProps> = ({
+  data,
+}) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -206,8 +195,6 @@ export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <AddBook variant="default"></AddBook>
-        <ShowAvailable variant="outline"></ShowAvailable>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -262,10 +249,6 @@ export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"

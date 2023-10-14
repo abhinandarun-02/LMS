@@ -34,7 +34,7 @@ const formSchema = z.object({
   phone: z.string().max(12, {
     message: "Please follow the format in the placeholder.",
   }),
-  role: z.string().min(5, {
+  role: z.string().max(7, {
     message: "Role must be chosen.",
   }),
 });
@@ -45,13 +45,13 @@ function AddUser() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   rollNumber: "",
-    //   name: "",
-    //   email: "",
-    //   phone: Number(),
-    //   role: "",
-    // },
+    defaultValues: {
+      rollNumber: "",
+      name: "",
+      email: "",
+      phone: "",
+      role: "",
+    },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -141,13 +141,13 @@ function AddUser() {
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="Student" />
+                        <RadioGroupItem value="student" />
                       </FormControl>
                       <FormLabel className="font-normal">Student</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="Teacher" />
+                        <RadioGroupItem value="teacher" />
                       </FormControl>
                       <FormLabel className="font-normal">Teacher</FormLabel>
                     </FormItem>

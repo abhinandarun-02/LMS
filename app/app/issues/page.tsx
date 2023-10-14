@@ -1,10 +1,10 @@
 import prismadb from "@/lib/prismadb";
-import { BooksClient } from "./books-client";
+import { IssuesClient } from "./issues-client";
 
 const BooksPage = async ({ params }: { params: { storeId: string } }) => {
-  const books = await prismadb.books.findMany();
+  const issues = await prismadb.issue.findMany({});
 
-  return <BooksClient data={books} />;
+  return <IssuesClient data={issues} />;
 };
 
 export default BooksPage;
