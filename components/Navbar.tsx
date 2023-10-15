@@ -6,9 +6,9 @@ import classNames from "classnames";
 import { LogOut } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/logo.svg";
+import { SignOutButton } from "@clerk/nextjs";
 
 type Props = {
   onMenuButtonClick(): void;
@@ -32,11 +32,14 @@ export default function Navbar(props: Props) {
       <div className="flex-grow"></div>
       <ModeToggle></ModeToggle>
       <div className="flex z-10 items-center justify-between">
-        <Button asChild>
-          <Link href="/">
-            <LogOut>Log Out</LogOut>
-          </Link>
+        
+      <SignOutButton>
+        <Button className="space-x-2">
+          <LogOut/>
+          <span>Sign Out</span>
         </Button>
+      </SignOutButton>
+    
       </div>
       <Button className="md:hidden z-10" onClick={props.onMenuButtonClick}>
         <Bars3Icon className="h-6 w-6" />

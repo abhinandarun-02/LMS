@@ -59,15 +59,7 @@ const Sidebar = ({ open, navItems = items, setOpen }: Props) => {
         ))}
       </div>
       {/* account  */}
-      <div className="flex gap-2 items-center cursor-pointer p-4">
-        <UserAvatar
-          name="DP"
-          image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuC0J5U2oOIippV-AiExQnz7BKcFOyd6Fdzg&usqp=CAU"
-        />
-        <h3 className="font-medium text-black dark:text-white">
-          Monkey D Luffy
-        </h3>
-      </div>
+      <UserAvatar />
     </div>
   );
 };

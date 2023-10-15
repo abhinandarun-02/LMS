@@ -1,4 +1,4 @@
-import { UserAvatar } from "@/components/UserAvatar";
+import { Users } from "@/components/Users";
 import { data as issuesData, Issues } from "@/data/recentIssues";
 
 export function RecentSales() {
@@ -7,7 +7,7 @@ export function RecentSales() {
       {issuesData.map((issue: Issues, index: number) => (
         <div className="flex justify-between items-center" key={index}>
           <div className="flex items-center">
-            <UserAvatar name={issue.name} image={issue.avatar} />
+            <Users name={issue.name} image={issue.avatar} />
             <div className="ml-4 space-y-1">
               <p className="text-sm font-medium leading-none">{issue.name}</p>
               <p className="text-sm text-muted-foreground">{issue.email}</p>
