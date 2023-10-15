@@ -36,82 +36,9 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AddBook } from "@/components/AddBook";
 import { ShowAvailable } from "@/components/ShowAvailable";
+import { columns } from './columns'
+import { Books } from "@prisma/client";
 
-type Books = {
-  id: string;
-  title: string;
-  edition: string;
-  author: string;
-  publisher: string;
-  available: boolean;
-};
-
-export const columns: ColumnDef<Books>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "title",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Title
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div>{row.getValue("title")}</div>,
-  },
-  {
-    accessorKey: "edition",
-    header: "Edition",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("edition")}</div>
-    ),
-  },
-  {
-    accessorKey: "author",
-    header: "Author",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("author")}</div>
-    ),
-  },
-  {
-    accessorKey: "publisher",
-    header: "Publisher",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("publisher")}</div>
-    ),
-  },
-  {
-    accessorKey: "available",
-    header: "Available",
-    cell: ({ row }) => (
-      <div className="capitalize">
-        {row.getValue("available") == true ? "Yes" : "No"}
-      </div>
-    ),
-  },
-];
 
 interface BooksClientProps {
   data: Books[];
@@ -210,56 +137,56 @@ export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
         <ShowAvailable variant="outline"></ShowAvailable>
       </div>
       <div className="rounded-md border">
-        <Table>
-          <ScrollArea className="h-[60vh] ">
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </TableHead>
-                    );
-                  })}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
+        <ScrollArea className="h-[60vh] ">
+          <Table>
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </TableHead>
+                      );
+                    })}
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </ScrollArea>
-        </Table>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+          </Table>
+        </ScrollArea>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">

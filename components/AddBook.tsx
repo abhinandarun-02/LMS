@@ -16,7 +16,7 @@ export const AddBook = ({
 }) => {
   return (
     <Button asChild className="ml-2 space-x-2" variant={variant}>
-      <Link href="/app/books/add">
+      <Link href="/app/books/new">
         <Plus></Plus>
         <span className="hidden md:inline whitespace-nowrap">Add Book</span>
       </Link>
