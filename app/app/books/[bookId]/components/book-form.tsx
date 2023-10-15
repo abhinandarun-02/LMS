@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
 import Heading from '@/components/ui/heading'
-// import AlertModal from '@/components/modals/alert-modal'
+import AlertModal from '@/components/modals/alert-modal'
 
 
 const formSchema = z.object({
@@ -100,34 +100,34 @@ export const BookForm: React.FC<BookFormProps> = ({
     }
   }
 
-//   const onDelete = async () => {
-//     try {
-//       setLoading(true)
-//       await axios.delete(`/api/${params.storeId}/products/${params.productId}`)
-//       router.refresh()
-//       router.push(`/${params.storeId}/products`)
-//       toast.success('Product deleted.')
-//     } catch (error: any) {
-//       toast.error('Something went wrong.')
-//     } finally {
-//       setLoading(false)
-//       setOpen(false)
-//     }
-//   }
+  const onDelete = async () => {
+    try {
+      setLoading(true)
+      await axios.delete(`/api/book/${params.bookId}`)
+      router.refresh()
+      router.push(`/app/books`)
+      toast.success('Book deleted.')
+    } catch (error: any) {
+      toast.error('Something went wrong.')
+    } finally {
+      setLoading(false)
+      setOpen(false)
+    }
+  }
 
   return (
     <>
-      {/* <AlertModal
+      <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onDelete}
         loading={loading}
-      /> */}
+      />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
           <Button
-            disabled={true}
+            disabled={loading}
             variant="destructive"
             size="sm"
             onClick={() => setOpen(true)}

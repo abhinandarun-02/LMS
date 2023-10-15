@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 
-// import AlertModal from '@/components/modals/alert-modal'
+import AlertModal from '@/components/modals/alert-modal'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -31,7 +31,7 @@ export const CellAction: React.FC<CellActionProps> = ({data}) => {
   const onConfirm = async () => {
     try {
       setLoading(true)
-      await axios.delete(`/api/${params.storeId}/products/${data.id}`)
+      await axios.delete(`/api/book/${data.id}`)
       toast.success('Product deleted.')
       router.refresh()
     } catch (error) {
@@ -49,12 +49,12 @@ export const CellAction: React.FC<CellActionProps> = ({data}) => {
 
   return (
     <>
-      {/* <AlertModal
+      <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onConfirm}
         loading={loading}
-      /> */}
+      />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -64,17 +64,18 @@ export const CellAction: React.FC<CellActionProps> = ({data}) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => onCopy(data.id)}>
+          <DropdownMenuItem onClick={() => onCopy(data.id)} className='cursor-pointer'>
             <Copy className="mr-2 h-4 w-4" /> Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() =>
               router.push(`/app/books/${data.id}`)
             }
+            className='cursor-pointer'
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)} disabled={true}>
+          <DropdownMenuItem onClick={() => setOpen(true)}  className='cursor-pointer'>
             <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
