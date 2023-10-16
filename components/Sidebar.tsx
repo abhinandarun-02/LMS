@@ -1,14 +1,13 @@
 import React, { useRef } from "react";
 import classNames from "classnames";
 import Link from "next/link";
-import { items } from "./NavItems";
+import MainNav from "./MainNav";
 import { useOnClickOutside } from "usehooks-ts";
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/UserAvatar";
 
 type Props = {
   open: boolean;
-  navItems?: NavItem[];
   setOpen(open: boolean): void;
 };
 
@@ -16,10 +15,11 @@ export interface NavItem {
   label: string;
   icon: any;
   href: string;
+  active: boolean
   disabled: boolean;
 }
 
-const Sidebar = ({ open, navItems = items, setOpen }: Props) => {
+const Sidebar = ({ open, setOpen }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, (e) => {
     setOpen(false);
@@ -39,24 +39,7 @@ const Sidebar = ({ open, navItems = items, setOpen }: Props) => {
     >
       {/* NavItems */}
       <div className="links mt-16 mx-4 flex flex-col gap-2 items-center">
-        {navItems.map((item) => (
-          <Button
-            key={item.href}
-            variant={"ghost"}
-            disabled={item.disabled}
-            className="w-full justify-start text-black dark:text-white h-full"
-          >
-            <Link
-              href={item.href}
-              className="h-10 w-full mx-4 flex justify-start items-center cursor-pointer rounded-lg text-md font-large"
-            >
-              <div className="flex">
-                <item.icon className="h-5 w-5 mr-3 text-black dark:text-white" />
-                {item.label}
-              </div>
-            </Link>
-          </Button>
-        ))}
+        <MainNav/>
       </div>
       {/* account  */}
       <UserAvatar />
