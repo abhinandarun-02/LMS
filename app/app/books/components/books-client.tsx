@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, Plus } from "lucide-react";
+import {ChevronDown} from "lucide-react";
 ``;
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -93,18 +93,18 @@ export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
           className="max-w-sm"
         />
         <div className="ml-auto pl-2 space-x-2">
-          <select
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Show {table.getState().pagination.pageSize} <ChevronDown/></Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
             {[5, 10, 15, 20, 25].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
+                <DropdownMenuCheckboxItem className="cursor-pointer" key={pageSize} onCheckedChange={()=>{table.setPageSize(Number(pageSize))}}>
+                  Show {pageSize}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -120,7 +120,7 @@ export const BooksClient: React.FC<BooksClientProps> = ({ data }) => {
                   return (
                     <DropdownMenuCheckboxItem
                       key={column.id}
-                      className="capitalize"
+                      className="capitalize cursor-pointer"
                       checked={column.getIsVisible()}
                       onCheckedChange={(value) =>
                         column.toggleVisibility(!!value)

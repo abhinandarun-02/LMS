@@ -88,7 +88,7 @@ export const BookForm: React.FC<BookFormProps> = ({
       if (initialData) {
         await axios.patch(`/api/book/${params.bookId}`,data)
       } else {
-        await axios.post(`/api/book/add`, data);
+        await axios.post(`/api/book/`, data);
       }
       router.refresh()
       router.push('/app/books')

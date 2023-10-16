@@ -9,9 +9,8 @@ export async function GET(
     { params }: { params: { bookId: string } }
   ) {
   try {
-
     if (!params.bookId) {
-        return new NextResponse('Product id is required', { status: 400 })
+        return new NextResponse('Book id is required', { status: 400 })
     }
 
     const book = await prismadb.books.findUnique(
