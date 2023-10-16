@@ -18,7 +18,7 @@ export default function Layout(props: PropsWithChildren) {
         <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
         <div
           className={classNames({
-            "lg:p-4": true, // layout
+            "lg:p-4 h-full": true, // layout
             "bg-white rounded-lg shadow-inner dark:bg-black dark:text-white":
               true, // colors
             "lg:mx-2.5 md:mx-0": true, // positioning

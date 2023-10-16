@@ -34,17 +34,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ReturnIssue } from "@/components/ReturnIssue";
+import { AddIssue } from "@/components/AddIssue";
+import { Issue } from "@prisma/client";
 
-type Issues = {
-  id: string;
-  book_id: string;
-  book_title: string;
-  user_id: string;
-  user_name: string;
-  overdue: false;
-};
+interface IssuesClientProps {
+  data: Issue[];
+}
 
-export const columns: ColumnDef<Issues>[] = [
+export const columns: ColumnDef<Issue>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -87,10 +85,10 @@ export const columns: ColumnDef<Issues>[] = [
     ),
   },
   {
-    accessorKey: "book_id",
-    header: "Book ID",
+    accessorKey: "created_at",
+    header: "Issue Date",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("book_id")}</div>
+      <div className="capitalize">{row.getValue("created_at")}</div>
     ),
   },
   {
@@ -112,7 +110,7 @@ export const columns: ColumnDef<Issues>[] = [
 ];
 
 interface IssuesClientProps {
-  data: Issues[];
+  data: Issue[];
 }
 
 export const IssuesClient: React.FC<IssuesClientProps> = ({ data }) => {
@@ -164,18 +162,26 @@ export const IssuesClient: React.FC<IssuesClientProps> = ({ data }) => {
           className="max-w-sm"
         />
         <div className="ml-auto pl-2 space-x-2">
-          <select
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[5, 10, 15, 20, 25].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
-          </select>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                Show {table.getState().pagination.pageSize} <ChevronDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {[5, 10, 15, 20, 25].map((pageSize) => (
+                <DropdownMenuCheckboxItem
+                  className="cursor-pointer"
+                  key={pageSize}
+                  onCheckedChange={() => {
+                    table.setPageSize(Number(pageSize));
+                  }}
+                >
+                  Show {pageSize}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -204,64 +210,58 @@ export const IssuesClient: React.FC<IssuesClientProps> = ({ data }) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <Button asChild className="ml-2 space-x-2">
-          <Link href="/app/issues/add">
-            <Plus></Plus>
-            <span className="hidden md:inline whitespace-nowrap">
-              Add Issue
-            </span>
-          </Link>
-        </Button>
+        <ReturnIssue variant="outline"></ReturnIssue>
+        <AddIssue variant="default"></AddIssue>
       </div>
       <div className="rounded-md border">
         <ScrollArea className="h-[60vh] ">
           <Table>
-              <TableHeader>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      );
-                    })}
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
                   </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody>
-                {table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row) => (
-                    <TableRow
-                      key={row.id}
-                      data-state={row.getIsSelected() && "selected"}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      No results.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
           </Table>
         </ScrollArea>
       </div>

@@ -1,69 +1,64 @@
-'use client'
+"use client";
 
-import * as z from 'zod'
-import axios from 'axios'
-import { useState } from 'react'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { toast } from 'react-hot-toast'
-import { Loader, Trash } from 'lucide-react'
-import { Books } from '@prisma/client'
-import { useParams, useRouter } from 'next/navigation'
+import * as z from "zod";
+import axios from "axios";
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import { Loader, Trash } from "lucide-react";
+import { Books } from "@prisma/client";
+import { useParams, useRouter } from "next/navigation";
 
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { Separator } from '@/components/ui/separator'
-import Heading from '@/components/ui/heading'
-import AlertModal from '@/components/modals/alert-modal'
-
+  FormMessage,
+} from "@/components/ui/form";
+import { Separator } from "@/components/ui/separator";
+import Heading from "@/components/ui/heading";
+import AlertModal from "@/components/modals/alert-modal";
 
 const formSchema = z.object({
-    title: z.string().min(2, {
-      message: "Title must be at least 2 characters.",
-    }),
-    edition: z.string().min(2, {
-      message: "Edition must be at least 2 characters.",
-    }),
-    author: z.string().min(2, {
-      message: "Author must be at least 2 characters.",
-    }),
-    publisher: z.string().min(2, {
-      message: "Publisher must be at least 2 characters.",
-    }),
-    available: z.boolean().refine((value) => value === true || value === false, {
-      message: "Available must be either true or false.",
-    }),
-  });
+  title: z.string().min(2, {
+    message: "Title must be at least 2 characters.",
+  }),
+  edition: z.string().min(2, {
+    message: "Edition must be at least 2 characters.",
+  }),
+  author: z.string().min(2, {
+    message: "Author must be at least 2 characters.",
+  }),
+  publisher: z.string().min(2, {
+    message: "Publisher must be at least 2 characters.",
+  }),
+  available: z.boolean().refine((value) => value === true || value === false, {
+    message: "Available must be either true or false.",
+  }),
+});
 
-type BookFormValues = z.infer<typeof formSchema>
+type BookFormValues = z.infer<typeof formSchema>;
 
 interface BookFormProps {
-  initialData: Books | null
+  initialData: Books | null;
 }
 
-export const BookForm: React.FC<BookFormProps> = ({
-  initialData,
-}) => {
-  const params = useParams()
-  const router = useRouter()
+export const BookForm: React.FC<BookFormProps> = ({ initialData }) => {
+  const params = useParams();
+  const router = useRouter();
 
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-
-  const [open, setOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
-
-  const title = initialData ? 'Edit book' : 'Add book'
-  const description = initialData ? 'Edit a book.' : 'Add a new book'
-  const toastMessage = initialData ? 'Book updated.' : 'Book created.'
-  const action = initialData ? 'Save changes' : 'Create'
+  const title = initialData ? "Edit book" : "Add book";
+  const description = initialData ? "Edit a book." : "Add a new book";
+  const toastMessage = initialData ? "Book updated." : "Book created.";
+  const action = initialData ? "Save changes" : "Create";
 
   const defaultValues = initialData
     ? {
@@ -75,45 +70,45 @@ export const BookForm: React.FC<BookFormProps> = ({
         author: "",
         publisher: "",
         available: true,
-      }
+      };
 
   const form = useForm<BookFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues
-  })
+    defaultValues,
+  });
 
   const onSubmit = async (data: BookFormValues) => {
     try {
-      setLoading(true)
+      setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/book/${params.bookId}`,data)
+        await axios.patch(`/api/book/${params.bookId}`, data);
       } else {
         await axios.post(`/api/book/`, data);
       }
-      router.refresh()
-      router.push('/app/books')
-      toast.success(toastMessage)
+      router.refresh();
+      router.push("/app/books");
+      toast.success(toastMessage);
     } catch (error: any) {
-      toast.error('Something went wrong.')
+      toast.error("Something went wrong.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const onDelete = async () => {
     try {
-      setLoading(true)
-      await axios.delete(`/api/book/${params.bookId}`)
-      router.refresh()
-      router.push(`/app/books`)
-      toast.success('Book deleted.')
+      setLoading(true);
+      await axios.delete(`/api/book/${params.bookId}`);
+      router.refresh();
+      router.push(`/app/books`);
+      toast.success("Book deleted.");
     } catch (error: any) {
-      toast.error('Something went wrong.')
+      toast.error("Something went wrong.");
     } finally {
-      setLoading(false)
-      setOpen(false)
+      setLoading(false);
+      setOpen(false);
     }
-  }
+  };
 
   return (
     <>
@@ -193,7 +188,8 @@ export const BookForm: React.FC<BookFormProps> = ({
           />
           <div className="flex items-center justify-between">
             <Button type="submit">
-              {loading && <Loader className="h-4 w-4 animate-spin" />}{action}
+              {loading && <Loader className="h-4 w-4 animate-spin" />}
+              {action}
             </Button>
             <Button variant={"outline"} onClick={() => form.reset()}>
               Reset
@@ -202,5 +198,5 @@ export const BookForm: React.FC<BookFormProps> = ({
         </form>
       </Form>
     </>
-  )
-}
+  );
+};

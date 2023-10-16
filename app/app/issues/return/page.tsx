@@ -23,7 +23,7 @@ const ReturnIssuePage = async ({ params }: { params: { storeId: string } }) => {
 
   return (
     <>
-      <h1>Add Issue</h1>
+      <h1>Return Issue</h1>
       <ReturnIssueClient userData={users} />
     </>
   );

@@ -2,7 +2,7 @@ import { AddBook } from "@/components/AddBook";
 import { AddUser } from "@/components/AddUser";
 import { AddIssue } from "@/components/AddIssue";
 import { ShowAvailable } from "@/components/ShowAvailable";
-import { RecentSales } from "@/components/recent-sales";
+import { RecentIssues } from "@/components/RecentIssues";
 import {
   Card,
   CardHeader,
@@ -13,8 +13,25 @@ import {
 import { IndianRupee } from "lucide-react";
 
 import React from "react";
+import { ReturnIssue } from "@/components/ReturnIssue";
+import prismadb from "@/lib/prismadb";
 
-function Dashboard() {
+const Dashboard = async () => {
+  const recentIssues = await prismadb.issue.findMany({
+    orderBy: {
+      id: "asc",
+    },
+    select: {
+      id: true,
+      user_name: true,
+      user_id: true,
+      book_title: true,
+      created_at: true,
+    },
+    take: 5,
+  });
+
+  const issuesCount = await prismadb.issue.count();
   return (
     <div className="dark:bg-zinc-900">
       <h1>Dashboard</h1>
@@ -28,7 +45,8 @@ function Dashboard() {
               <div className="flex flex-col space-y-4 items-center">
                 <AddBook variant="secondary"></AddBook>
                 <AddUser variant="default"></AddUser>
-                <AddIssue variant="ghost"></AddIssue>
+                <AddIssue variant="outline"></AddIssue>
+                <ReturnIssue variant="ghost"></ReturnIssue>
                 <ShowAvailable variant="outline"></ShowAvailable>
               </div>
             </CardContent>
@@ -51,15 +69,15 @@ function Dashboard() {
         <Card className="col-span-2">
           <CardHeader>
             <CardTitle>Recent Issues</CardTitle>
-            <CardDescription>265 issues this month.</CardDescription>
+            <CardDescription>{issuesCount} issue(s) currently.</CardDescription>
           </CardHeader>
           <CardContent>
-            <RecentSales />
+            <RecentIssues data={recentIssues} />
           </CardContent>
         </Card>
       </div>
     </div>
   );
-}
+};
 
 export default Dashboard;
