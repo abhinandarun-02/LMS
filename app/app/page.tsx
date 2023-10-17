@@ -21,13 +21,6 @@ const Dashboard = async () => {
     orderBy: {
       created_at: "desc",
     },
-    select: {
-      id: true,
-      user_name: true,
-      user_id: true,
-      book_title: true,
-      created_at: true,
-    },
     take: 5,
   });
 
