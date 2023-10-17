@@ -28,11 +28,13 @@ model Books {
 }
 
 model Issue {
-  id         String  @id @default(uuid())
-  created_at String
-  overdue    Boolean
-  book_id    String
-  book_title String
-  user_id    String
-  user_name  String
+  id             String  @id @default(uuid())
+  created_at     String
+  overdue        Boolean
+  overdue_amount Int
+  book_id        String
+  book_title     String
+  user_id        String
+  user_name      String
+  user_role      String
 }

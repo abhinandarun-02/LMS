@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     });
     const userRecord = await prismadb.user.findFirst({
       where: { rollNumber: user_id },
-      select: { name: true },
+      select: { name: true, role: true },
     });
 
     if (!bookTitleRecord || !userRecord) {
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     }
 
     const { title: book_title } = bookTitleRecord;
-    const { name: user_name } = userRecord;
+    const { name: user_name, role: user_role } = userRecord;
     console.log(bookTitleRecord);
     console.log(userRecord);
 
@@ -58,7 +58,9 @@ export async function POST(req: Request) {
         book_title,
         user_id,
         user_name,
+        user_role,
         overdue,
+        overdue_amount: 0,
       },
     });
     console.log(issue);

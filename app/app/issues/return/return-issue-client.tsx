@@ -36,12 +36,10 @@ type User = {
 };
 
 const formSchema = z.object({
-  book_title: z.string().min(2, {
+  book_id: z.string().min(2, {
     message: "Title must be at least 2 characters.",
   }),
-  user_id: z.string().min(2, {
-    message: "User ID must be at least 2 characters.",
-  }),
+  user_id: z.string(),
 });
 
 export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
@@ -54,10 +52,10 @@ export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   book_title: "",
-    //   user_id: "",
-    // },
+    defaultValues: {
+      book_id: "",
+      user_id: "",
+    },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -116,7 +114,7 @@ export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
                     <SelectGroup>
                       {userData.map((userItem) => (
                         <SelectItem
-                          key={userItem.name}
+                          key={userItem.rollNumber}
                           value={userItem.rollNumber}
                         >
                           {userItem.name}
@@ -133,7 +131,7 @@ export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
         {userIssues.length !== 0 ? (
           <FormField
             control={form.control}
-            name="book_title"
+            name="book_id"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Title</FormLabel>
@@ -148,10 +146,7 @@ export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
                     <SelectContent>
                       <SelectGroup>
                         {userIssues.map((item: any) => (
-                          <SelectItem
-                            key={item.book_id}
-                            value={item.book_title}
-                          >
+                          <SelectItem key={item.book_id} value={item.book_id}>
                             {item.book_title}
                           </SelectItem>
                         ))}

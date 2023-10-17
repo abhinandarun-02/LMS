@@ -32,13 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ReturnIssue } from "@/components/ReturnIssue";
-import { AddIssue } from "@/components/AddIssue";
 import { Issue } from "@prisma/client";
-
-interface IssuesClientProps {
-  data: Issue[];
-}
 
 export const columns: ColumnDef<Issue>[] = [
   {
@@ -62,18 +56,10 @@ export const columns: ColumnDef<Issue>[] = [
   },
   {
     accessorKey: "user_id",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Roll Number
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div>{row.getValue("user_id")}</div>,
+    header: "Roll Number",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("user_id")}</div>
+    ),
   },
   {
     accessorKey: "user_name",
@@ -83,31 +69,30 @@ export const columns: ColumnDef<Issue>[] = [
     ),
   },
   {
-    accessorKey: "created_at",
-    header: "Issue Date",
+    accessorKey: "user_role",
+    header: "Role",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("created_at")}</div>
+      <div className="capitalize">{row.getValue("user_role")}</div>
     ),
   },
   {
     accessorKey: "book_title",
-    header: "Book Title",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("book_title")}</div>
-    ),
-  },
-  {
-    accessorKey: "overdue",
-    header: "Overdue",
-    cell: ({ row }) => (
-      <div className="capitalize">
-        {row.getValue("overdue") == true ? "Yes" : "No"}
-      </div>
-    ),
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Title
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{row.getValue("book_title")}</div>,
   },
   {
     accessorKey: "overdue_amount",
-    header: () => <div>Amount</div>,
+    header: () => <div className="text-right">Fine</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("overdue_amount"));
 
@@ -121,11 +106,11 @@ export const columns: ColumnDef<Issue>[] = [
   },
 ];
 
-interface IssuesClientProps {
+interface OverdueClientProps {
   data: Issue[];
 }
 
-export const IssuesClient: React.FC<IssuesClientProps> = ({ data }) => {
+export const OverdueClient: React.FC<OverdueClientProps> = ({ data }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -163,13 +148,13 @@ export const IssuesClient: React.FC<IssuesClientProps> = ({ data }) => {
 
   return (
     <div className="w-full">
-      <h1>Issues</h1>
+      <h1>Overdue</h1>
       <div className="flex py-4">
         <Input
           placeholder="Filter users..."
-          value={(table.getColumn("user_id")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("user_id")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -222,8 +207,6 @@ export const IssuesClient: React.FC<IssuesClientProps> = ({ data }) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <ReturnIssue variant="outline"></ReturnIssue>
-        <AddIssue variant="default"></AddIssue>
       </div>
       <div className="rounded-md border">
         <ScrollArea className="h-[60vh] ">

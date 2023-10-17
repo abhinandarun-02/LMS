@@ -1,7 +1,7 @@
 import prismadb from "@/lib/prismadb";
 import IssuesClient from "./add-issues-client";
 
-const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
+const ProductsPage = async () => {
   const books = await prismadb.books.findMany({
     where: {
       available: true,
