@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Issue } from "@prisma/client";
+import { ReturnOverdue } from "@/components/ReturnOverdue";
 
 export const columns: ColumnDef<Issue>[] = [
   {
@@ -206,6 +207,7 @@ export const OverdueClient: React.FC<OverdueClientProps> = ({ data }) => {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
+          <ReturnOverdue variant="default"></ReturnOverdue>
         </div>
       </div>
       <div className="rounded-md border">

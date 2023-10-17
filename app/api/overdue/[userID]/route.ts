@@ -11,10 +11,10 @@ export async function GET(
       return new NextResponse("User id is required", { status: 400 });
     }
 
-    const userIssues = await prismadb.issue.findMany({
+    const userOverdues = await prismadb.issue.findMany({
       where: {
         user_id: params.userID,
-        overdue: false,
+        overdue: true,
       },
       select: {
         book_id: true,
@@ -22,7 +22,7 @@ export async function GET(
       },
     });
 
-    return NextResponse.json(userIssues);
+    return NextResponse.json(userOverdues);
   } catch (error) {
     console.log("[USER_ISSUE_GET]", error);
     return new NextResponse("Internal error", { status: 500 });

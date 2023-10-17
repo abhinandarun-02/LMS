@@ -1,13 +1,13 @@
 import prismadb from "@/lib/prismadb";
-import ReturnIssueClient from "./return-issue-client";
+import ReturnOverdueClient from "./return-overdue-client";
 
 const ReturnIssuePage = async () => {
   const users = await prismadb.user.findMany({});
 
   return (
     <>
-      <h1>Return Issue</h1>
-      <ReturnIssueClient userData={users} />
+      <h1>Return Overdue</h1>
+      <ReturnOverdueClient userData={users} />
     </>
   );
 };

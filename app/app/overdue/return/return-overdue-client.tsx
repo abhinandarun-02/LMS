@@ -26,7 +26,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import toast from "react-hot-toast";
 
-interface ReturnIssueClientProps {
+interface ReturnOverdueClientProps {
   userData: User[];
 }
 
@@ -42,13 +42,13 @@ const formSchema = z.object({
   user_id: z.string(),
 });
 
-export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
+export const ReturnOverdueClient: React.FC<ReturnOverdueClientProps> = ({
   userData,
 }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [loadedUser, setLoadedUser] = useState(false);
-  const [userIssues, setUserIssues] = useState([]);
+  const [userOverdues, setUserOverdues] = useState([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,11 +62,11 @@ export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
     try {
       setLoading(true);
 
-      await axios.post(`/api/issue/return`, values);
+      await axios.post(`/api/overdue`, values);
 
       router.refresh();
-      toast.success("Issue returned successfully");
-      setUserIssues([]);
+      toast.success("Overdue returned successfully");
+      setUserOverdues([]);
     } catch (error: any) {
       toast.error("Something went wrong.");
     } finally {
@@ -75,14 +75,14 @@ export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
   }
   async function changeStateLoadedUser(userID: string): Promise<void> {
     try {
-      const userIssuesAxios = await axios.get(`/api/issue/return/${userID}`);
-      console.log(userIssuesAxios.data);
-      if (userIssuesAxios.data.length == 0) {
-        setUserIssues([]);
-        toast.error("No user issues found");
+      const userOverduesAxios = await axios.get(`/api/overdue/${userID}`);
+      console.log(userOverduesAxios.data);
+      if (userOverduesAxios.data.length == 0) {
+        setUserOverdues([]);
+        toast.error("No user overdues found");
       } else {
-        toast.success("User issues added successfully");
-        setUserIssues(userIssuesAxios.data);
+        toast.success("User overdues added successfully");
+        setUserOverdues(userOverduesAxios.data);
       }
       router.refresh();
       setLoadedUser(!loadedUser);
@@ -101,7 +101,7 @@ export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
           name="user_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Roll Number of User</FormLabel>
+              <FormLabel>Name of User</FormLabel>
               <FormControl>
                 <Select
                   onValueChange={changeStateLoadedUser}
@@ -128,7 +128,7 @@ export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
             </FormItem>
           )}
         />
-        {userIssues.length !== 0 ? (
+        {userOverdues.length !== 0 ? (
           <FormField
             control={form.control}
             name="book_id"
@@ -145,7 +145,7 @@ export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        {userIssues.map((item: any) => (
+                        {userOverdues.map((item: any) => (
                           <SelectItem key={item.book_id} value={item.book_id}>
                             {item.book_title}
                           </SelectItem>
@@ -161,7 +161,7 @@ export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
         ) : (
           <h1>No user issues found</h1>
         )}
-        <Button type="submit" disabled={userIssues.length == 0}>
+        <Button type="submit" disabled={userOverdues.length == 0}>
           {loading && <Loader className="h-4 w-4 animate-spin" />}Submit
         </Button>
       </form>
@@ -169,4 +169,4 @@ export const ReturnIssueClient: React.FC<ReturnIssueClientProps> = ({
   );
 };
 
-export default ReturnIssueClient;
+export default ReturnOverdueClient;

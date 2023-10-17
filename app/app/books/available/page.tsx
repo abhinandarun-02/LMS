@@ -1,11 +1,7 @@
 import prismadb from "@/lib/prismadb";
 import { AvailableBooksClient } from "./available-books-client";
 
-const AvailableBooksPage = async ({
-  params,
-}: {
-  params: { storeId: string };
-}) => {
+const AvailableBooksPage = async () => {
   const availableBooks = await prismadb.books.findMany({
     where: {
       available: true,
