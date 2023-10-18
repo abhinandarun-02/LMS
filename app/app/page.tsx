@@ -18,6 +18,9 @@ import { PrismaClient } from "@prisma/client";
 
 const Dashboard = async () => {
   const recentIssues = await prismadb.issue.findMany({
+    include:{
+      user: true
+    },
     orderBy: {
       created_at: "desc",
     },

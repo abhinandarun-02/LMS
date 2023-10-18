@@ -1,15 +1,30 @@
+"use client"
+
+import React from "react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
-export const Users = ({
+interface UsersProps {
+  image : string | null
+  name : string
+  className ?: string
+}
+
+export const Users : React.FC<UsersProps> = ({
   image,
   name,
-  className,
-}: {
-  image: string;
-  name: string;
-  className?: string;
+  className
 }) => {
+
+  const [hasMounted, setHasMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) return null;
+
   return (
     <Avatar
       className={cn(
@@ -17,11 +32,13 @@ export const Users = ({
         className
       )}
     >
-      {/* <AvatarImage
-        className="h-full w-full rounded-[inherit] object-cover"
-        src={image}
-        alt={name}
-      /> */}
+      {image &&       
+        <AvatarImage
+          className="h-full w-full rounded-[inherit] object-cover"
+          src={image}
+          alt={name}
+        />}
+
       <AvatarFallback
         className="text-violet11 leading-1 flex h-full w-full items-center justify-center bg-white dark:bg-popover text-[15px] font-medium border border-solid border-gray-400 dark:text-white"
         delayMs={600}

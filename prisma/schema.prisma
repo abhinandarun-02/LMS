@@ -13,6 +13,7 @@ datasource db {
 model User {
   rollNumber String  @id
   name       String
+  image      String?
   email      String
   phone      String
   role       String
