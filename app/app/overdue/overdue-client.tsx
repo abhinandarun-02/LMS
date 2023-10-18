@@ -153,9 +153,9 @@ export const OverdueClient: React.FC<OverdueClientProps> = ({ data }) => {
       <div className="flex py-4">
         <Input
           placeholder="Filter users..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("user_name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("user_name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
