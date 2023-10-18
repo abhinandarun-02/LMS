@@ -11,11 +11,12 @@ datasource db {
 }
 
 model User {
-  rollNumber String @id
+  rollNumber String  @id
   name       String
   email      String
   phone      String
   role       String
+  issues     Issue[]
 }
 
 model Books {
@@ -25,6 +26,7 @@ model Books {
   author    String
   publisher String
   available Boolean
+  issues    Issue[]
 }
 
 model Issue {
@@ -37,4 +39,6 @@ model Issue {
   user_id        String
   user_name      String
   user_role      String
+  user           User    @relation(fields: [user_id], references: [rollNumber])
+  book           Books   @relation(fields: [book_id], references: [id])
 }
